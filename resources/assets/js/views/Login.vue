@@ -80,7 +80,7 @@
           success: function() {
             // handle redirection
             //const redirectTo = redirect ? redirect.from.name : this.$auth.user().role === 2 ? 'admin.dashboard' : 'dashboard'
-
+            console.log(this.$auth)
             this.$router.push({name: 'Home'})
           },
           error: function() {

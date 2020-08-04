@@ -20,7 +20,7 @@ Vue.router = router
 Vue.use(VueRouter)
 
 Vue.use(VueAxios, axios)
-axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api`
+axios.defaults.baseURL = `https://urtjumptracker.herokuapp.com/api`
 Vue.use(VueAuth, auth);
 
 const app = new Vue({

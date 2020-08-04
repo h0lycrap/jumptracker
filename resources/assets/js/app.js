@@ -21,7 +21,7 @@ Vue.use(VueRouter)
 
 Vue.use(VueAxios, axios)
 //axios.defaults.baseURL = `http://127.0.0.1:8000/api`
-axios.defaults.baseURL = `https://urtjumptracker.herokuapp.com/api`
+axios.defaults.baseURL = `http://urtjumptracker.herokuapp.com/api`
 Vue.use(VueAuth, auth);
 
 const app = new Vue({

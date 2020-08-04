@@ -235,7 +235,7 @@ export default {
     },
 
     getUserProgress(){
-      if (this.jumpsCompleted.length ==0){
+      if (!this.jumpsCompleted.length>0){
         for(let i = 0; i < this.maps.length; i++){
           this.maps[i].jumps = this.maps[i].jumps.replace(/\'/g, "\"")
           var jsonJumps = JSON.parse(this.maps[i].jumps)
@@ -343,7 +343,9 @@ export default {
 
     setUserProgress(){
       if(this.$auth.check()){
-        this.jumpsCompleted = JSON.parse(this.$auth.user().progress)
+        if (this.$auth.user().progress){
+          this.jumpsCompleted = JSON.parse(this.$auth.user().progress)
+        }
       }
     },
   },

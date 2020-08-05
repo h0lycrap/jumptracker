@@ -141,7 +141,7 @@ export default {
     },
 
     completeJump(jump, number){
-      if(this.$auth.check()){
+      if(this.loggedIn){
         if (this.isJumpCompleted(jump, number)){
           for(let i = 0; i<this.jumpsCompleted[jump.id].jumps.length; i++){
             if(i>=number-1){
@@ -184,7 +184,7 @@ export default {
 
 
     completeLeet(jump, number){
-      if(this.$auth.check()){
+      if(this.loggedIn){
       
         if (this.jumpsCompleted[jump.id].leets[number-1]){
           this.jumpsCompleted[jump.id].leets[number-1] = false
@@ -196,6 +196,7 @@ export default {
         }
         this.updateProgress()
         this.$forceUpdate()
+        
       }
       else{
         this.$router.push({name: 'login'})
@@ -207,7 +208,7 @@ export default {
     },
 
     completeSecret(jump, number){
-      if(this.$auth.check()){
+      if(this.loggedIn){
       
         if (this.jumpsCompleted[jump.id].secrets[number-1]){
           this.jumpsCompleted[jump.id].secrets[number-1] = false
@@ -329,22 +330,30 @@ export default {
     },
 
     updateProgress() {
-      this.$http({
-        url: `auth/updateProgress`,
+      /*this.$http({
+        url: `api/auth/updateProgress`,
         method: 'POST',
         data:{
           progress: this.jumpsCompleted,
+          id: this.$store.state.auth.user.id,
         }
       })
         .then((res) => {
         }, () => {
-        })
+        })*/
+        var data = {progress: this.jumpsCompleted, id: this.$store.state.auth.user.id}
+        this.$store.dispatch('auth/updateProgress', data)
     },
 
     setUserProgress(){
-      if(this.$auth.check()){
-        if (this.$auth.user().progress){
-          this.jumpsCompleted = JSON.parse(this.$auth.user().progress)
+      if(this.loggedIn){
+        if (this.$store.state.auth.user.progress){
+          if(typeof this.$store.state.auth.user.progress == 'object'){
+            this.jumpsCompleted = this.$store.state.auth.user.progress
+          }
+          else{
+            this.jumpsCompleted = JSON.parse(this.$store.state.auth.user.progress)
+          }
         }
       }
     },
@@ -356,6 +365,11 @@ export default {
         return this.filterJumps(item)
       })
     },
+
+    loggedIn(){
+      //return this.$auth.check()
+      return this.$store.state.auth.status.loggedIn
+    }
   },
 
   created(){

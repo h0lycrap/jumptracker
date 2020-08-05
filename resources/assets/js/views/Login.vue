@@ -42,10 +42,12 @@
 </template>
 
 <script>
+  import User from '../models/user';
+
   export default {
     data() {
       return {
-        email: null,
+        
         password: null,
         has_error: false,
         valid: false,
@@ -56,7 +58,8 @@
         email: '',
         emailRules: [
           v => !!v || 'E-mail is required',
-        ]
+        ],
+        user: new User('', ''),
       }
     },
 
@@ -68,6 +71,22 @@
       validate () {
         this.$refs.form.validate()
       },
+      login(){
+        var app = this
+        
+        this.user.email = this.email
+        this.user.password = this.password
+        console.log(this.user)
+        this.$store.dispatch('auth/login', this.user).then(
+          () => {
+            this.$router.push({name: 'Home'});
+          },
+          error => {
+            app.has_error = true
+          }
+        );
+      }
+      /*
       login() {
         // get the redirect object
         var redirect = this.$auth.redirect()
@@ -89,8 +108,14 @@
           rememberMe: true,
           fetchUser: true
         })
-      }
-    }
+      }*/
+    },
+
+    created() {//
+      if (this.$store.state.auth.status.loggedIn) {//
+        this.$router.push({name: 'Home'});//
+      }//
+    },//
   }
 </script>
 

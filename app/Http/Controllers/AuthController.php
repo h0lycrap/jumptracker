@@ -37,12 +37,13 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
+        $email = $request->email;
 
         if ($token = $this->guard()->attempt($credentials)) {
-            return response()->json(['status' => 'success'], 200)->header('Authorization', $token);
+            return response()->json(Auth::user(), 200)->header('Authorization', $token);
         }
 
-        return response()->json(['error' => 'login_error'], 401);
+        return response()->json(['error' => $email], 401);
     }
 
     public function logout()
@@ -67,10 +68,10 @@ class AuthController extends Controller
 
     public function updateProgress(Request $request)
     {
-        $user = User::find(Auth::user()->id);
+        $user = User::find($request->id);
         $user->progress = $request->progress;
         $user->save();
-        return response()->json(['status' => 'success', 'user'=> $user,'req'=>$request->progress], 200);
+        return response()->json($user, 200);
     }
 
     public function refresh()

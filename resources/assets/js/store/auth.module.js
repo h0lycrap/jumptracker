@@ -24,7 +24,6 @@ export const auth = {
     updateProgress({ commit }, data) {
         return AuthService.updateProgress(data.progress, data.id).then(
           response => {
-            console.log(response)
             commit('updateSuccess', response);
             return Promise.resolve(response);
           }

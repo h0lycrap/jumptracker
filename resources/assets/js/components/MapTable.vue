@@ -330,17 +330,6 @@ export default {
     },
 
     updateProgress() {
-      /*this.$http({
-        url: `api/auth/updateProgress`,
-        method: 'POST',
-        data:{
-          progress: this.jumpsCompleted,
-          id: this.$store.state.auth.user.id,
-        }
-      })
-        .then((res) => {
-        }, () => {
-        })*/
         var data = {progress: this.jumpsCompleted, id: this.$store.state.auth.user.id}
         this.$store.dispatch('auth/updateProgress', data)
     },
@@ -367,7 +356,6 @@ export default {
     },
 
     loggedIn(){
-      //return this.$auth.check()
       return this.$store.state.auth.status.loggedIn
     }
   },

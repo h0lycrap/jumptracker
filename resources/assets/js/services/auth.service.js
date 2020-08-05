@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://urtjumptracker.herokuapp.com/api/auth/';//
+const API_URL = 'http://urtjumptracker.herokuapp.com/api/auth/';//
 
 class AuthService {
   login(user) {

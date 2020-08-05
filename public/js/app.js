@@ -2682,6 +2682,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _models_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/user */ "./resources/assets/js/models/user.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
@@ -2745,6 +2746,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _this = this,
@@ -2777,35 +2779,45 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return /.+@.+\..+/.test(v) || 'E-mail must be valid';
     }]), _defineProperty(_ref, "nameRules", [function (v) {
       return !!v || 'Name is required';
-    }]), _ref;
+    }]), _defineProperty(_ref, "user", new _models_user__WEBPACK_IMPORTED_MODULE_0__["default"]('', '')), _ref;
   },
   methods: {
     register: function register() {
+      var _this2 = this;
+
       var app = this;
-      this.$auth.register({
-        data: {
-          name: app.name,
-          email: app.email,
-          password: app.password,
-          password_confirmation: app.password_confirmation
-        },
-        success: function success() {
-          app.success = true;
-          this.$router.push({
-            name: 'login',
-            params: {
-              successRegistrationRedirect: true
-            }
-          });
-        },
-        error: function error(res) {
-          console.log(res.response.data.errors);
-          app.has_error = true;
-          app.error = res.response.data.error;
-          app.errors = res.response.data.errors || {};
-        }
+      this.user.name = this.name;
+      this.user.email = this.email;
+      this.user.password = this.password;
+      console.log(this.user);
+      this.$store.dispatch('auth/register', this.user).then(function () {
+        _this2.$router.push({
+          name: 'login'
+        });
+      }, function (error) {
+        app.has_error = true;
       });
     }
+    /*
+    this.$auth.register({
+      data: {
+        name: app.name,
+        email: app.email,
+        password: app.password,
+        password_confirmation: app.password_confirmation
+      },
+      success: function () {
+        app.success = true
+        this.$router.push({name: 'login', params: {successRegistrationRedirect: true}})
+      },
+      error: function (res) {
+        console.log(res.response.data.errors)
+        app.has_error = true
+        app.error = res.response.data.error
+        app.errors = res.response.data.errors || {}
+      }
+    })*/
+
   }
 });
 

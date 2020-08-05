@@ -60,6 +60,8 @@
  
 </template>
 <script>
+  import User from '../models/user';
+
   export default {
     data() {
       return {
@@ -88,13 +90,28 @@
         ],
         nameRules: [
           v => !!v || 'Name is required',
-        ]
+        ],
+        user: new User('', ''),
       }
     },
 
     methods: {
       register() {
         var app = this
+        this.user.name = this.name
+        this.user.email = this.email
+        this.user.password = this.password
+        console.log(this.user)
+        this.$store.dispatch('auth/register', this.user).then(
+          () => {
+            this.$router.push({name: 'login'});
+          },
+          error => {
+            app.has_error = true
+          }
+        );
+      }
+        /*
         this.$auth.register({
           data: {
             name: app.name,
@@ -112,8 +129,8 @@
             app.error = res.response.data.error
             app.errors = res.response.data.errors || {}
           }
-        })
-      }
+        })*/
+      
     }
   }
 </script>

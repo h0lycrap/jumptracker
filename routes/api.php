@@ -14,6 +14,12 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/maps', 'MapsController@index');
+
+//UE4
+Route::prefix('ue4')->group(function () {
+    Route::get('user', 'AuthController@userUE4');
+});
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

@@ -66,6 +66,16 @@ class AuthController extends Controller
         ]);
     }
 
+    public function userUE4(Request $request)
+    {
+        $user = User::find($request->id);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $user
+        ]);
+    }
+
     public function updateProgress(Request $request)
     {
         $user = User::find($request->id);

@@ -22,7 +22,7 @@ export const auth = {
       );
     },
     updateProgress({ commit }, data) {
-        return AuthService.updateProgress(data.progress, data.id).then(
+        return AuthService.updateProgress(data.progress, data.id, data.mapid).then(
           response => {
             commit('updateSuccess', response);
             return Promise.resolve(response);

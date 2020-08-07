@@ -79,7 +79,8 @@ class AuthController extends Controller
     public function updateProgress(Request $request)
     {
         $user = User::find($request->id);
-        $user->progress = $request->progress;
+        $map = $request->mapid;
+        $user->$map = $request->progress;
         $user->save();
         return response()->json($user, 200);
     }

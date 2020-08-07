@@ -167,7 +167,7 @@ export default {
         this.jumpsCompleted[jump.id].progress = parseInt(100*this.jumpsCompleted[jump.id].jumpsCompleted/jsonJump.jumps)
         jump.status = this.jumpsCompleted[jump.id].progress
 
-        this.updateProgress()
+        this.updateProgress(jump.id)
         this.$forceUpdate()
 
         
@@ -194,7 +194,7 @@ export default {
           this.jumpsCompleted[jump.id].leets[number-1] = true
           this.jumpsCompleted[jump.id].leetsCompleted++
         }
-        this.updateProgress()
+        this.updateProgress(jump.id)
         this.$forceUpdate()
         
       }
@@ -219,7 +219,7 @@ export default {
           this.jumpsCompleted[jump.id].secretsCompleted++
         }
 
-        this.updateProgress()
+        this.updateProgress(jump.id)
         this.$forceUpdate()
       }
       else{
@@ -329,22 +329,36 @@ export default {
       }
     },
 
-    updateProgress() {
-        var data = {progress: this.jumpsCompleted, id: this.$store.state.auth.user.id}
+    updateProgress(mapid) {
+        var data = {progress: this.jumpsCompleted[mapid], id: this.$store.state.auth.user.id, mapid: 'map_'+mapid.toString()}
+        console.log(data)
         this.$store.dispatch('auth/updateProgress', data)
     },
 
-    setUserProgress(){
+    sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    },
+
+    async setUserProgress(){
+      await this.sleep(2000);
       if(this.loggedIn){
-        if (this.$store.state.auth.user.progress){
-          if(typeof this.$store.state.auth.user.progress == 'object'){
-            this.jumpsCompleted = this.$store.state.auth.user.progress
+        for (let i=1 ; i<=this.maps.length ; i++){
+          if (this.$store.state.auth.user['map_'+i.toString()]){
+            if(typeof this.$store.state.auth.user['map_'+i.toString()] == 'object'){
+              console.log(this.$store.state.auth.user['map_'+i.toString()])
+              this.jumpsCompleted[i] = this.$store.state.auth.user['map_'+i.toString()]
+            }
+            else{ 
+              this.jumpsCompleted[i] = JSON.parse(this.$store.state.auth.user['map_'+i.toString()])
+            }
           }
           else{
-            this.jumpsCompleted = JSON.parse(this.$store.state.auth.user.progress)
+            console.log('coucouc')
           }
         }
+        console.log(this.jumpsCompleted)
       }
+      this.$forceUpdate()
     },
   },
 

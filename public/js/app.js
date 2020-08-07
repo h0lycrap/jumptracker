@@ -2284,7 +2284,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         var jsonJump = JSON.parse(jump.jumps);
         this.jumpsCompleted[jump.id].progress = parseInt(100 * this.jumpsCompleted[jump.id].jumpsCompleted / jsonJump.jumps);
         jump.status = this.jumpsCompleted[jump.id].progress;
-        this.updateProgress();
+        this.updateProgress(jump.id);
         this.$forceUpdate();
       } else {
         this.$router.push({
@@ -2305,7 +2305,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           this.jumpsCompleted[jump.id].leetsCompleted++;
         }
 
-        this.updateProgress();
+        this.updateProgress(jump.id);
         this.$forceUpdate();
       } else {
         this.$router.push({
@@ -2326,7 +2326,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           this.jumpsCompleted[jump.id].secretsCompleted++;
         }
 
-        this.updateProgress();
+        this.updateProgress(jump.id);
         this.$forceUpdate();
       } else {
         this.$router.push({
@@ -2418,35 +2418,66 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return true;
       }
     },
-    updateProgress: function updateProgress() {
-      /*this.$http({
-        url: `api/auth/updateProgress`,
-        method: 'POST',
-        data:{
-          progress: this.jumpsCompleted,
-          id: this.$store.state.auth.user.id,
-        }
-      })
-        .then((res) => {
-        }, () => {
-        })*/
+    updateProgress: function updateProgress(mapid) {
       var data = {
-        progress: this.jumpsCompleted,
-        id: this.$store.state.auth.user.id
+        progress: this.jumpsCompleted[mapid],
+        id: this.$store.state.auth.user.id,
+        mapid: 'map_' + mapid.toString()
       };
+      console.log(data);
       this.$store.dispatch('auth/updateProgress', data);
     },
-    setUserProgress: function setUserProgress() {
-      if (this.loggedIn) {
-        if (this.$store.state.auth.user.progress) {
-          if (_typeof(this.$store.state.auth.user.progress) == 'object') {
-            this.jumpsCompleted = this.$store.state.auth.user.progress;
-          } else {
-            this.jumpsCompleted = JSON.parse(this.$store.state.auth.user.progress);
+    sleep: function sleep(ms) {
+      return new Promise(function (resolve) {
+        return setTimeout(resolve, ms);
+      });
+    },
+    setUserProgress: function () {
+      var _setUserProgress = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var i;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.sleep(2000);
+
+              case 2:
+                if (this.loggedIn) {
+                  for (i = 1; i <= this.maps.length; i++) {
+                    if (this.$store.state.auth.user['map_' + i.toString()]) {
+                      if (_typeof(this.$store.state.auth.user['map_' + i.toString()]) == 'object') {
+                        console.log(this.$store.state.auth.user['map_' + i.toString()]);
+                        this.jumpsCompleted[i] = this.$store.state.auth.user['map_' + i.toString()];
+                      } else {
+                        this.jumpsCompleted[i] = JSON.parse(this.$store.state.auth.user['map_' + i.toString()]);
+                      }
+                    } else {
+                      console.log('coucouc');
+                    }
+                  }
+
+                  console.log(this.jumpsCompleted);
+                }
+
+                this.$forceUpdate();
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
           }
-        }
+        }, _callee2, this);
+      }));
+
+      function setUserProgress() {
+        return _setUserProgress.apply(this, arguments);
       }
-    }
+
+      return setUserProgress;
+    }()
   },
   computed: {
     filteredMap: function filteredMap() {
@@ -2457,7 +2488,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     loggedIn: function loggedIn() {
-      //return this.$auth.check()
       return this.$store.state.auth.status.loggedIn;
     }
   },
@@ -2624,7 +2654,6 @@ __webpack_require__.r(__webpack_exports__);
       var app = this;
       this.user.email = this.email;
       this.user.password = this.password;
-      console.log(this.user);
       this.$store.dispatch('auth/login', this.user).then(function () {
         _this.$router.push({
           name: 'Home'
@@ -2633,42 +2662,14 @@ __webpack_require__.r(__webpack_exports__);
         app.has_error = true;
       });
     }
-    /*
-    login() {
-      // get the redirect object
-      var redirect = this.$auth.redirect()
-      var app = this
-      this.$auth.login({
-        params: {
-          email: app.email,
-          password: app.password
-        },
-        success: function() {
-          // handle redirection
-          //const redirectTo = redirect ? redirect.from.name : this.$auth.user().role === 2 ? 'admin.dashboard' : 'dashboard'
-          console.log(this.$auth)
-          this.$router.push({name: 'Home'})
-        },
-        error: function() {
-          app.has_error = true
-        },
-        rememberMe: true,
-        fetchUser: true
-      })
-    }*/
-
   },
   created: function created() {
-    //
     if (this.$store.state.auth.status.loggedIn) {
-      //
       this.$router.push({
         name: 'Home'
-      }); //
-    } //
-
-  } //
-
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -2789,7 +2790,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.user.name = this.name;
       this.user.email = this.email;
       this.user.password = this.password;
-      console.log(this.user);
       this.$store.dispatch('auth/register', this.user).then(function () {
         _this2.$router.push({
           name: 'login'
@@ -2798,26 +2798,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         app.has_error = true;
       });
     }
-    /*
-    this.$auth.register({
-      data: {
-        name: app.name,
-        email: app.email,
-        password: app.password,
-        password_confirmation: app.password_confirmation
-      },
-      success: function () {
-        app.success = true
-        this.$router.push({name: 'login', params: {successRegistrationRedirect: true}})
-      },
-      error: function (res) {
-        console.log(res.response.data.errors)
-        app.has_error = true
-        app.error = res.response.data.error
-        app.errors = res.response.data.errors || {}
-      }
-    })*/
-
   }
 });
 
@@ -77114,26 +77094,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- //import auth from './auth';
-//import VueAuth from '@websanova/vue-auth';
-//import VueAxios from 'vue-axios';
-//import VueRouter from 'vue-router';
-//import 'es6-promise/auto';
 
 
  //
 
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vee_validate__WEBPACK_IMPORTED_MODULE_6__["default"]); //
-
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vee_validate__WEBPACK_IMPORTED_MODULE_6__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.config.productionTip = false;
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$http = axios__WEBPACK_IMPORTED_MODULE_3___default.a; // Set Vue router
-//Vue.router = router
-//Vue.use(VueRouter)
-//Vue.use(VueAxios, axios)
-//axios.defaults.baseURL = `http://127.0.0.1:8000/api`
-//axios.defaults.baseURL = `http://urtjumptracker.herokuapp.com/api`
-//Vue.use(VueAuth, auth);
-
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$http = axios__WEBPACK_IMPORTED_MODULE_3___default.a;
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {
@@ -77410,7 +77377,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 
-var API_URL = 'http://localhost:8000/api/auth/'; //
+var API_URL = 'http://127.0.0.1:8000/api/auth/'; //
 
 var AuthService =
 /*#__PURE__*/
@@ -77435,10 +77402,11 @@ function () {
     }
   }, {
     key: "updateProgress",
-    value: function updateProgress(progress, id) {
+    value: function updateProgress(progress, id, mapid) {
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(API_URL + 'updateProgress', {
         progress: progress,
-        id: id
+        id: id,
+        mapid: mapid
       }).then(function (response) {
         localStorage.setItem('user', JSON.stringify(response.data));
         return response.data;
@@ -77507,8 +77475,7 @@ var auth = {
     },
     updateProgress: function updateProgress(_ref2, data) {
       var commit = _ref2.commit;
-      return _services_auth_service__WEBPACK_IMPORTED_MODULE_0__["default"].updateProgress(data.progress, data.id).then(function (response) {
-        console.log(response);
+      return _services_auth_service__WEBPACK_IMPORTED_MODULE_0__["default"].updateProgress(data.progress, data.id, data.mapid).then(function (response) {
         commit('updateSuccess', response);
         return Promise.resolve(response);
       });

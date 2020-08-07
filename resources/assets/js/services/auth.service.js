@@ -18,11 +18,12 @@ class AuthService {
       });
   }
 
-  updateProgress(progress, id) {
+  updateProgress(progress, id, mapid) {
       return axios
         .post(API_URL + 'updateProgress', {
             progress: progress,
             id: id,
+            mapid: mapid,
         })
         .then(response => {
             localStorage.setItem('user', JSON.stringify(response.data));

@@ -69,11 +69,9 @@ class AuthController extends Controller
     public function userUE4(Request $request)
     {
         $user = User::find($request->id);
+        $mapid = $request->mapid;
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $user
-        ]);
+        return response()->json($user->$mapid, 200);
     }
 
     public function updateProgress(Request $request)

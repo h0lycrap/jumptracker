@@ -71,7 +71,10 @@ class AuthController extends Controller
         $user = User::find($request->id);
         $mapid = $request->mapid;
 
-        return response()->json($user->$mapid, 200);
+        return response()->json([
+            'status' => 'success',
+            'data' => $user->$mapid
+        ]);
     }
 
     public function updateProgress(Request $request)

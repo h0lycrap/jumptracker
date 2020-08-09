@@ -18,6 +18,7 @@ Route::get('/maps', 'MapsController@index');
 //UE4
 Route::prefix('ue4')->group(function () {
     Route::get('user', 'AuthController@userUE4');
+    Route::post('updateProgress', 'AuthController@updateProgressUE4');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

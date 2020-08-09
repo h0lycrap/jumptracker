@@ -86,6 +86,18 @@ class AuthController extends Controller
         return response()->json($user, 200);
     }
 
+    public function updateProgressUE4(Request $request)
+    {
+        $user = User::find($request->id);
+        $map = $request->mapid;
+        $user->$map = $request->progress;
+        $user->save();
+        return response()->json([
+            'status' => 'success',
+            'data' => $user->$mapid
+        ]);
+    }
+
     public function refresh()
     {
         if ($token = $this->guard()->refresh()) {

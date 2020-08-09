@@ -1,3 +1,5 @@
 # Urban Terror Jump Tracker
 
-Will complete this later
+Access the app here: http://urtjumptracker.herokuapp.com/
+
+Will complete this later...

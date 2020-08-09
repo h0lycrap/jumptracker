@@ -92,7 +92,7 @@ class AuthController extends Controller
         $map = $request->mapid;
         $user->$map = $request->progress;
         $user->save();
-        return response()->json(['status' => 'successs'], 200);
+        return response()->json(['status' => 'success'], 200);
     }
 
     public function refresh()

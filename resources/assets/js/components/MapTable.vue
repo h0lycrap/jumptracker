@@ -331,7 +331,6 @@ export default {
 
     updateProgress(mapid) {
         var data = {progress: this.jumpsCompleted[mapid], id: this.$store.state.auth.user.id, mapid: 'map_'+mapid.toString()}
-        console.log(data)
         this.$store.dispatch('auth/updateProgress', data)
     },
 
@@ -345,18 +344,13 @@ export default {
         for (let i=1 ; i<=this.maps.length ; i++){
           if (this.$store.state.auth.user['map_'+i.toString()]){
             if(typeof this.$store.state.auth.user['map_'+i.toString()] == 'object'){
-              console.log(this.$store.state.auth.user['map_'+i.toString()])
               this.jumpsCompleted[i] = this.$store.state.auth.user['map_'+i.toString()]
             }
             else{ 
               this.jumpsCompleted[i] = JSON.parse(this.$store.state.auth.user['map_'+i.toString()])
             }
           }
-          else{
-            console.log('coucouc')
-          }
         }
-        console.log(this.jumpsCompleted)
       }
       this.$forceUpdate()
     },

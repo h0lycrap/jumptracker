@@ -91,18 +91,25 @@ class AuthController extends Controller
         $user = User::find($request->id);
         $map = $request->mapid;
 
-        $progressObj = array([
-        'name' => json($request->name),
-        'jumps' => json($request->jumps),
-        'jumpsCompleted' => $request->jumpscompleted,
-        'leets' => $request->leets,
-        'leetsCompleted' => $request->leetscompleted,
-        'secrets' => $request->secrets,
-        'secretsCompleted' => $request->secretscompleted,
-        'progress'=> $request->progress,
-        ]);
+        $progressString = "{\"name\":" ;
+        $progressString .= $request->name;
+        $progressString .= ", \"jumps\": ";
+        $progressString .= $request->jumps;
+        $progressString .= ", \"jumpsCompleted\": ";
+        $progressString .= $request->jumpscompleted;
+        $progressString .= ", \"leets\": ";
+        $progressString .= $request->leets;
+        $progressString .= ", \"leetsCompleted\": ";
+        $progressString .= $request->leetscompleted;
+        $progressString .= ", \"secrets\": ";
+        $progressString .= $request->secrets;
+        $progressString .= ", \"secretsCompleted\": ";
+        $progressString .= $request->secretscompleted;
+        $progressString .= ", \"progress\": ";
+        $progressString .= $request->progress;
+        $progressString .= "}";
 
-        $user->$map = $progressObj;
+        $user->$map = $progressString;
         $user->save();
         return response()->json(['status' => 'success'], 200);
         //return response()->json($progressObj, 200);

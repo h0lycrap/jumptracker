@@ -93,8 +93,13 @@ class AuthController extends Controller
 
         $progressObj = array([
         'name' => $request->name,
-        'Jumps' => $request->jumps,
-        'JumpsCompleted' => $request->jumpscompleted,
+        'jumps' => $request->jumps,
+        'jumpsCompleted' => $request->jumpscompleted,
+        'leets' => $request->leets,
+        'leetsCompleted' => $request->leetscompleted,
+        'secrets' => $request->secrets,
+        'secretsCompleted' => $request->secretscompleted,
+        'progress'=> $request->progress,
         ]);
 
         //$user->$map = $request->progress;

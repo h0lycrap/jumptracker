@@ -102,7 +102,7 @@ class AuthController extends Controller
         'progress'=> $request->progress,
         ]);
 
-        $user->$map = $progressObj;
+        $user->$map = $progressObj[0];
         $user->save();
         return response()->json(['status' => 'success'], 200);
         //return response()->json($progressObj, 200);

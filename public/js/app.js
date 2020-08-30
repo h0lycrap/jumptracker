@@ -2424,7 +2424,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         id: this.$store.state.auth.user.id,
         mapid: 'map_' + mapid.toString()
       };
-      console.log(data);
       this.$store.dispatch('auth/updateProgress', data);
     },
     sleep: function sleep(ms) {
@@ -2449,17 +2448,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   for (i = 1; i <= this.maps.length; i++) {
                     if (this.$store.state.auth.user['map_' + i.toString()]) {
                       if (_typeof(this.$store.state.auth.user['map_' + i.toString()]) == 'object') {
-                        console.log(this.$store.state.auth.user['map_' + i.toString()]);
                         this.jumpsCompleted[i] = this.$store.state.auth.user['map_' + i.toString()];
                       } else {
                         this.jumpsCompleted[i] = JSON.parse(this.$store.state.auth.user['map_' + i.toString()]);
                       }
-                    } else {
-                      console.log('coucouc');
                     }
                   }
-
-                  console.log(this.jumpsCompleted);
                 }
 
                 this.$forceUpdate();
@@ -77377,7 +77371,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 
-var API_URL = 'http://127.0.0.1:8000/api/auth/'; //
+var API_URL = 'http://urtjumptracker.herokuapp.com/api/auth/'; //
 
 var AuthService =
 /*#__PURE__*/
@@ -77832,8 +77826,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Gabriel\Documents\urt\Jump Project\Laravel\laravel-vue-spa-laravel-6.1\resources\assets\js\app.js */"./resources/assets/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Gabriel\Documents\urt\Jump Project\Laravel\laravel-vue-spa-laravel-6.1\resources\assets\sass\app.scss */"./resources/assets/sass/app.scss");
+__webpack_require__(/*! C:\Users\Gabriel\Documents\urt\Jump Project\webapp\resources\assets\js\app.js */"./resources/assets/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Gabriel\Documents\urt\Jump Project\webapp\resources\assets\sass\app.scss */"./resources/assets/sass/app.scss");
 
 
 /***/ })

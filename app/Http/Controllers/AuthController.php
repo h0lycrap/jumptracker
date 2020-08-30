@@ -90,9 +90,17 @@ class AuthController extends Controller
     {
         $user = User::find($request->id);
         $map = $request->mapid;
-        $user->$map = $request->progress;
-        $user->save();
-        return response()->json(['status' => 'success'], 200);
+
+        $progressObj = array([
+        'name' => $request->name,
+        'Jumps' => $request->jumps,
+        'JumpsCompleted' => $request->jumpscompleted,
+        ]);
+
+        //$user->$map = $request->progress;
+        //$user->save();
+        //return response()->json(['status' => 'success'], 200);
+        return response()->json($progressObj, 200);
     }
 
     public function refresh()

@@ -91,9 +91,9 @@ class AuthController extends Controller
         $user = User::find($request->id);
         $map = $request->mapid;
 
-        $progressObj = json([
-        'name' => $request->name,
-        'jumps' => $request->jumps,
+        $progressObj = array([
+        'name' => json($request->name),
+        'jumps' => json($request->jumps),
         'jumpsCompleted' => $request->jumpscompleted,
         'leets' => $request->leets,
         'leetsCompleted' => $request->leetscompleted,

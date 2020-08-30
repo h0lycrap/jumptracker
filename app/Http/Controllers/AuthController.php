@@ -102,10 +102,10 @@ class AuthController extends Controller
         'progress'=> $request->progress,
         ]);
 
-        //$user->$map = $request->progress;
-        //$user->save();
-        //return response()->json(['status' => 'success'], 200);
-        return response()->json($progressObj, 200);
+        $user->$map = $request->progress;
+        $user->save();
+        return response()->json(['status' => 'success'], 200);
+        //return response()->json($progressObj, 200);
     }
 
     public function refresh()
